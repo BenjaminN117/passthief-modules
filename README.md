@@ -6,6 +6,7 @@ Here is the list of modules and their supportability(is this a word?):
 | ----------- |:-------:|:-------:|:-----:|
 | Chrome      | [x]     | [ ]     | [ ]   |
 | Firefox     | [ ]     | [ ]     | [ ]   |
+| Pidgin      | [ ]     | [ ]     | [x]   |
 
 ## Planned modules:
 - Internet Explorer
