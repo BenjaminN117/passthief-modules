@@ -1,2 +1,2 @@
 def steal():
-    print("Not implemented yet")
+    return ("[-] Not implemented yet")
