@@ -6,8 +6,8 @@ Here is the list of modules and their supportability(is this a word?):
 | ----------- |:-------:|:-------:|:-----:|
 | Chrome      | [x]     | [x]     | [ ]   |
 | Firefox     | [ ]     | [ ]     | [ ]   |
-| Pidgin      | [ ]     | [ ]     | [x]   |
-
+| Pidgin      | [x]     | [ ]     | [x]   |
+| FileZilla   | [x]     | [ ]     | [x]   |
 ## Planned modules:
 - Internet Explorer
 - Mozilla Thunderbird

