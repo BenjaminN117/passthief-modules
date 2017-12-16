@@ -4,7 +4,7 @@ Here is the list of modules and their supportability(is this a word?):
 
 | Module Type | Windows | Mac OSX | Linux |
 | ----------- |:-------:|:-------:|:-----:|
-| Chrome      | [x]     | [ ]     | [ ]   |
+| Chrome      | [x]     | [x]     | [ ]   |
 | Firefox     | [ ]     | [ ]     | [ ]   |
 | Pidgin      | [ ]     | [ ]     | [x]   |
 
