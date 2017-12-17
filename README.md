@@ -8,6 +8,5 @@ Here is the list of modules and their supportability(is this a word?):
 | Firefox     | [ ]     | [ ]     | [ ]   |
 | Pidgin      | [x]     | [ ]     | [x]   |
 | FileZilla   | [x]     | [ ]     | [x]   |
-## Planned modules:
-- Internet Explorer
-- Mozilla Thunderbird
+## Contributors
+* Gavin Henderson - Chrome Module - Mac OSX Support
