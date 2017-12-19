@@ -1,2 +1,4 @@
+import platform
+
 def steal():
-    return ("[-] Not implemented yet")
+    return("[-] "+platform.system()+" is not supported.")

