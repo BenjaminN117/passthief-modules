@@ -9,4 +9,4 @@ Here is the list of modules and their supportability(is this a word?):
 | Pidgin      | [x]     | [x]     | [x]   |
 | FileZilla   | [x]     | [x]     | [x]   |
 ## Contributors
-* [Gavin Henderson](https://github.com/gavinhenderson) - Chrome Module - Mac OSX Support
+* [Gavin Henderson](https://github.com/gavinhenderson) - Mac OSX Contributor ( Chrome, Pidgin, FileZilla )

