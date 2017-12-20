@@ -6,7 +6,8 @@ Here is the list of modules and their supportability(is this a word?):
 | ----------- |:-------:|:-------:|:-----:|
 | Chrome      | [x]     | [x]     | [x]   |
 | Firefox     | [ ]     | [ ]     | [ ]   |
+| Opera       | [ ]     | [x]     |       |
 | Pidgin      | [x]     | [x]     | [x]   |
 | FileZilla   | [x]     | [x]     | [x]   |
 ## Contributors
-* [Gavin Henderson](https://github.com/gavinhenderson) - Mac OSX Contributor ( Chrome, Pidgin, FileZilla )
+* [Gavin Henderson](https://github.com/gavinhenderson) - Mac OSX Contributor ( Chrome, Pidgin, FileZilla etc. )
