@@ -1,5 +1,4 @@
 # Common imports
-from __future__ import print_function
 import platform
 import sqlite3
 import os
