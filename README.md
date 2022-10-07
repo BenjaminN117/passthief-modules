@@ -9,6 +9,8 @@ Here is the list of modules and their supported operating systems:
 | Opera       | [ ]     | [x]     | [ ]   |
 | Pidgin      | [x]     | [x]     | [x]   |
 | FileZilla   | [x]     | [x]     | [x]   |
+| WiFi Pass   | [x]     | [ ]     | [ ]   |
 
 ## Contributors
 * [Gavin Henderson](https://github.com/gavinhenderson) - Mac OSX Contributor ( Chrome, Pidgin, FileZilla etc. )
+* [Benjamin Norman](https://github.com/BenjaminN117) - Windows WiFi Passwords
